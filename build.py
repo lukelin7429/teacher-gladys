@@ -94,6 +94,11 @@ def gallery(key, limit=None):
     )
     return f'<div class="gallery">{cells}</div>'
 
+def gsec(key, head, tint=False, limit=None):
+    """Gallery section that renders only when photos exist for the page."""
+    g = gallery(key, limit=limit)
+    return section(g, tint=tint, head=head) if g else ''
+
 def video(src, cap):
     return f'<div class="video rvl"><iframe loading="lazy" src="{src}" allow="autoplay; fullscreen" allowfullscreen></iframe><div class="cap">{cap}</div></div>'
 
@@ -206,9 +211,9 @@ def build():
       + section('<div class="grid g4">'+cards+'</div>',
                 tint=True, head=("The Bilingual Initiative","Four corners of a global campus","Explore the four specialized corners where confidence and curiosity grow."))
       + section(stats, head=("By the Numbers","A teacher's journey to Taiwan", None))
-      + section(gallery("08-learning-activities", 8) +
+      + (section(gallery("08-learning-activities", 8) +
                 '<div class="btn-row rvl"><a class="btn primary" href="learning-activities.html">See more moments</a></div>',
-                tint=True, head=("In the Classroom","Learning by doing", None))
+                tint=True, head=("In the Classroom","Learning by doing", None)) if imgs("08-learning-activities") else '')
       + '<section><div class="wrap"><div class="band rvl"><h2>“You learn by doing — and by falling over.”</h2>'
         '<p>Every drill, song, festival, and performance is a chance to try, stumble, and grow braver in English.</p>'
         '<div class="btn-row" style="justify-content:center"><a class="btn ghost" href="about-me.html">Meet Teacher Glad</a></div></div></div></section>'
@@ -253,7 +258,7 @@ def build():
                 head=("English Club","Reading, understanding, performing", None))
       + section('<div class="video-grid">'+ec_videos+'</div>', tint=True,
                 head=("Performances","Reader's theater & role-play", None))
-      + section(gallery("03-english-club"), head=("Gallery","Moments from the club", None))
+      + gsec("03-english-club", ("Gallery","Moments from the club", None))
     )
     P["english-club.html"] = page("english-club.html","English Club",eclub,active="bilingual-initiative.html",sub="english-club.html")
 
@@ -273,7 +278,7 @@ def build():
       + section('<div class="grid g2">'+corner_games+'</div>'
                 + '<div style="margin-top:26px">'+padlet("1yiljuk5s0x8yjxd","Sentence of the Week — student wall")+'</div>',
                 tint=True, head=("Play & Practice","Interactive Wordwall games and a Padlet wall", "Tap a game to play right here."))
-      + section(gallery("04-english-corner"), head=("Gallery","Morning English in action", None))
+      + gsec("04-english-corner", ("Gallery","Morning English in action", None))
     )
     P["english-corner.html"] = page("english-corner.html","English Corner",corner,active="bilingual-initiative.html",sub="english-corner.html")
 
@@ -307,7 +312,7 @@ def build():
       + section(iss_videos, tint=True, head=("Watch","Exchanges in motion", None))
       + section(iss_pad, head=("Student Walls","Padlet collaborations", None))
       + section(iss_canva, tint=True, head=("Culture Decks","Made in Canva", None))
-      + section(gallery("05-international-sister-school"), head=("Gallery","Around the world, together", None))
+      + gsec("05-international-sister-school", ("Gallery","Around the world, together", None))
     )
     P["international-sister-school.html"] = page("international-sister-school.html","International Sister School",iss,active="bilingual-initiative.html",sub="international-sister-school.html")
 
@@ -324,7 +329,7 @@ def build():
                 '<p>Communication Arts is our structured class focused on specific communicative functions, designed for real-world application — transforming abstract grammar and vocabulary into practical, spontaneous communication so students are ready to use English in the real world.</p></div>',
                 head=("Communication Arts","Built for the real world", None))
       + section(ca_canva, tint=True, head=("Lesson Decks","Made in Canva", None))
-      + section(gallery("06-communication-arts"), head=("Gallery","Talking, listening, connecting", None))
+      + gsec("06-communication-arts", ("Gallery","Talking, listening, connecting", None))
     )
     P["communication-arts.html"] = page("communication-arts.html","Communication Arts",ca,active="bilingual-initiative.html",sub="communication-arts.html")
 
@@ -345,7 +350,7 @@ def build():
         f'<div class="text"><span class="eyebrow rvl">My Story</span><h2 class="rvl">Education that bridges people</h2>'
         f'<div class="prose">{bio_html}</div></div>'
         '</div></div></section>'
-      + section(gallery("07-about-me"), tint=True, head=("Gallery","Life at Nanhsing", None))
+      + gsec("07-about-me", ("Gallery","Life at Nanhsing", None), tint=True)
     )
     P["about-me.html"] = page("about-me.html","About Me",about)
 
@@ -358,7 +363,7 @@ def build():
       + section('<div class="video-grid">' + drive("1NWGmTy_acIrg98HmYCkofjH2OovX2a-I","Activity highlight")
                 + drive("1CfmW_k5G56NQuRHmkPfDrkAdQJe4bX8T","Hands-on learning") + '</div>',
                 head=("Watch","Activities in motion", None))
-      + section(gallery("08-learning-activities"), tint=True, head=("Photo Wall","Every moment counts", None))
+      + gsec("08-learning-activities", ("Photo Wall","Every moment counts", None), tint=True)
     )
     P["learning-activities.html"] = page("learning-activities.html","Learning Activities",la)
 
@@ -387,7 +392,7 @@ def build():
       + section('<div class="grid g2">'+lo_games+'</div>', tint=True,
                 head=("Play to Learn","Interactive Wordwall games","Tap any game to play it right here."))
       + section('<div class="grid g3">'+lo_canva+'</div>', head=("Teaching Materials","Made in Canva", None))
-      + section(gallery("09-learning-outputs"), tint=True, head=("Gallery","Outputs & creations", None))
+      + gsec("09-learning-outputs", ("Gallery","Outputs & creations", None), tint=True)
     )
     P["learning-outputs.html"] = page("learning-outputs.html","Learning Outputs",lo)
 
